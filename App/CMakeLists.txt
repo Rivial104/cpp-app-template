@@ -19,3 +19,5 @@ add_compile_definitions(
 target_link_libraries(App Core)
 
 target_include_directories(App PRIVATE Source)
+
+target_compile_definitions(App PRIVATE APP_SHADER_DIR="${CMAKE_CURRENT_SOURCE_DIR}/Shaders/")
