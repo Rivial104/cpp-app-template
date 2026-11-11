@@ -24,6 +24,11 @@ namespace Core {
         s_Application = this;
 
         glfwSetErrorCallback(GLFWErrorCallback);
+#if defined(__linux__)
+        // Prefer X11 (XWayland) over native Wayland
+        if (glfwPlatformSupported(GLFW_PLATFORM_X11))
+            glfwInitHint(GLFW_PLATFORM, GLFW_PLATFORM_X11);
+#endif
         glfwInit();
 
         if (m_Specification.WindowSpec.Title.empty()) m_Specification.WindowSpec.Title = m_Specification.Name;

@@ -32,4 +32,9 @@ if [[ ! -x ./build/App/App ]]; then
     exit 1
 fi
 
+# WSL2: (CPU rendering) -- use the GPU via D3D12
+if [[ -e /dev/dxg ]]; then
+    export GALLIUM_DRIVER="${GALLIUM_DRIVER:-d3d12}"
+fi
+
 exec ./build/App/App "$@"
