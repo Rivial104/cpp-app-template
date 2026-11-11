@@ -32,3 +32,4 @@ target_link_libraries(Core glad)
 target_link_libraries(Core glm)
 
 target_include_directories(Core PUBLIC "Source")
+target_include_directories(Core PRIVATE "vendor/stb")

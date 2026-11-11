@@ -1,12 +1,15 @@
 #include "Core/Application.h"
-#include "AppLayer.h"
 
-#include <iostream>
+#include "AppLayer.h"
 
 int main()
 {
-    
-    std::cout << "Hello, World!!!\n";
+    Core::ApplicationSpecification appSpec;
+    appSpec.Name = "Architecture";
+    appSpec.WindowSpec.Width = 1920;
+    appSpec.WindowSpec.Height = 1080;
 
-    return 0;
+    Core::Application application(appSpec);
+    application.PushLayer<AppLayer>();
+    application.Run();
 }

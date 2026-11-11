@@ -36,7 +36,7 @@ namespace Core {
             GLFWwindow* GetHandle() const { return m_Handle; }
 
         private:
-            WindowSpecs m_specs;
+            WindowSpecs m_Specification;
 
             GLFWwindow* m_Handle = nullptr;
     };

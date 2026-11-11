@@ -6,7 +6,7 @@
 
 #include <glm/glm.hpp>
 
-#include <assert>
+#include <cassert>
 #include <iostream>
 
 namespace Core {
@@ -18,7 +18,8 @@ namespace Core {
         std::cerr << "[GLFW Error]: " << description << std::endl;
     }
 
-    Application::Application(const ApplicationSpecification& specification : m_Specification)
+    Application::Application(const ApplicationSpecification& specification)
+        : m_Specification(specification)
     {
         s_Application = this;
 
@@ -42,7 +43,7 @@ namespace Core {
         s_Application = nullptr;
     }
 
-    Application::Run()
+    void Application::Run()
     {
         m_Running = true;
 
@@ -51,9 +52,51 @@ namespace Core {
         // Main Application Loop
         while(m_Running)
         {
+            glfwPollEvents();
+
+            if(m_Window->ShouldClose())
+            {
+                Stop();
+                break;
+            }
+
+            float currentTime = GetTime();
+            float timestep = glm::clamp(currentTime - lastTime, 0.001f, 0.1f);
+            lastTime = currentTime;
+
+            // Main layer update
+            for(const std::unique_ptr<Layer>& layer : m_LayerStack)
+                layer->OnUpdate(timestep);
+
+            // NOTE: rendering could be done anywhere else (i.e. render thread)
+            for(const std::unique_ptr<Layer>& layer : m_LayerStack)
+                layer->OnRender();
+
+            m_Window->Update();
 
         }
 
+    }
+
+    void Application::Stop()
+    {
+        m_Running = false;
+    }
+
+    glm::vec2 Application::GetFramebufferSize() const
+    {
+        return m_Window->GetFramebufferSize();
+    }
+
+    Application& Application::Get()
+    {
+        assert(s_Application);
+        return *s_Application;
+    }
+
+    float Application::GetTime()
+    {
+        return (float)glfwGetTime();
     }
 
 } // namespace Core

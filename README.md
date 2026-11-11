@@ -11,6 +11,12 @@ sudo apt install libxkbcommon-dev libwayland-dev wayland-protocols \
     libgl1-mesa-dev pkg-config
 ```
 
+Additionally, we use C++23 feauters, so gcc-14 is required:
+
+```bash
+sudo apt install g++-14
+```
+
 # Build and run
 
 Just use `./run.sh` script
